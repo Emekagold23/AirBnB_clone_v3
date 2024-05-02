@@ -11,9 +11,10 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from datetime import datetime
 
 strptime = datetime.strptime
-to_json = base_model.BaseModel.to_json
+to_json = BaseModel.to_json
 
 
 class FileStorage:
