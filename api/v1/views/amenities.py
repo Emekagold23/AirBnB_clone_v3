@@ -1,7 +1,8 @@
 #!/usr/bin/python3
+"""route for handling Amenity API actions
 """
-route for handling Amenity API actions
-"""
+
+
 from flask import jsonify, abort, request
 from api.v1.views import app_views, storage
 from models.amenity import Amenity
@@ -14,9 +15,9 @@ def amenity_get_all():
     :return: json of all states
     """
     am_list = []
-    am_obj = storage.all("Amenity")
+    am_obj = storage.all(Amenity)
     for obj in am_obj.values():
-        am_list.append(obj.to_json())
+        am_list.append(obj.to_dict())
 
     return jsonify(am_list)
 
@@ -35,7 +36,7 @@ def amenity_create():
 
     new_am = Amenity(**am_json)
     new_am.save()
-    resp = jsonify(new_am.to_json())
+    resp = jsonify(new_am.to_dict())
     resp.status_code = 201
 
     return resp
@@ -50,12 +51,12 @@ def amenity_by_id(amenity_id):
     :return: state obj with the specified id or error
     """
 
-    fetched_obj = storage.get("Amenity", str(amenity_id))
+    fetched_obj = storage.get(Amenity, str(amenity_id))
 
     if fetched_obj is None:
         abort(404)
 
-    return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_dict())
 
 
 @app_views.route("/amenities/<amenity_id>",  methods=["PUT"],
@@ -69,14 +70,14 @@ def amenity_put(amenity_id):
     am_json = request.get_json(silent=True)
     if am_json is None:
         abort(400, 'Not a JSON')
-    fetched_obj = storage.get("Amenity", str(amenity_id))
+    fetched_obj = storage.get(Amenity, str(amenity_id))
     if fetched_obj is None:
         abort(404)
     for key, val in am_json.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(fetched_obj, key, val)
     fetched_obj.save()
-    return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_dict())
 
 
 @app_views.route("/amenities/<amenity_id>",  methods=["DELETE"],
@@ -88,7 +89,7 @@ def amenity_delete_by_id(amenity_id):
     :return: empty dict with 200 or 404 if not found
     """
 
-    fetched_obj = storage.get("Amenity", str(amenity_id))
+    fetched_obj = storage.get(Amenity, str(amenity_id))
 
     if fetched_obj is None:
         abort(404)

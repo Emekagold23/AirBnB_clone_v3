@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" views """
+""" views for the airbnb flask app """
+
 
 from flask import Blueprint
 
