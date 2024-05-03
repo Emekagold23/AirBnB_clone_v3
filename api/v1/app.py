@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-"""
-app
-"""
+"""Contains the Airbnb flask app"""
+
 
 from flask import Flask, jsonify, make_response
 from flask_cors import CORS
@@ -20,16 +19,13 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown(exception):
-    """
-    teardown function
-    """
+    """teardown function"""
     storage.close()
 
 
 @app.errorhandler(404)
 def handle_404(exception):
-    """
-    handles 404 error
+    """handles 404 error
     :return: returns 404 json
     """
     return make_response(jsonify({"error": "Not found"}), 404)

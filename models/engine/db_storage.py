@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" Database engine """
+""" Database engine for the Airbnb flask app """
+
 
 import models
 from models.amenity import Amenity
